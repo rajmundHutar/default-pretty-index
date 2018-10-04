@@ -1,2 +1,2 @@
-# default-pretty-index
-Pretty index.html page from my projects
+# Default pretty `index.html`
+Pretty `index.html` page from my projects.

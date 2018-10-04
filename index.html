@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Tady brzy něco bude</title>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            background: #2196F3;
+            overflow: hidden;
+            height: 100%;
+            color: #FBFBFF;
+        }
+
+        .centered {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        div#shadow {
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            text-shadow: 3px 3px 0px rgba(11, 79, 108, 0.1);
+            -moz-transition: text-shadow 20ms;
+            -o-transition: text-shadow 20ms;
+            -webkit-transition: text-shadow 20ms;
+            transition: text-shadow 20ms;
+            -webkit-text-stroke: 1px rgba(13, 71, 161, 0.5);
+        }
+
+        div#shadow .bottom {
+            text-align: right;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        div#shadow .shadow {
+            font-size: 5rem;
+            font-weight: bolder;
+        }
+
+        a {
+            color: #FBFBFF;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="centered">
+    <div id='shadow'>
+        <div class='shadow'>
+            Tady brzy něco bude
+        </div>
+        <div class='bottom'>
+            <a href="https://rajmund.cz">rajmund.cz</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.js"></script>
+<script>
+	// shim layer with setTimeout fallback
+	window.requestAnimFrame = (function () {
+		return function (callback) {
+			window.setTimeout(callback, 1000);
+		};
+	})();
+
+	$(document).ready(function () {
+
+		var $shadow = $('#shadow');
+		var shadowLimit = 200;
+		var moveEvent = ('ontouchstart' in document.documentElement) ? "touchmove" : "mousemove";
+
+		(function animloop() {
+			requestAnimFrame(animloop);
+
+			$(window).bind(moveEvent, function (ev) {
+				var $this = $(this);
+				var w = $this.width();
+				var h = $this.height();
+				var center = {x: w / 2, y: h / 2};
+
+				var evX = (moveEvent == 'touchmove') ? ev.originalEvent.touches[0].clientX : ev.clientX;
+				var evY = (moveEvent == 'touchmove') ? ev.originalEvent.touches[0].clientY : ev.clientY;
+
+				var shadowX = (center.x - evX) / 10;
+				var shadowY = (center.y - evY) / 10;
+
+				shadowX = (shadowX > shadowLimit) ? shadowLimit : shadowX;
+				shadowX = (shadowX < shadowLimit * -1) ? shadowLimit * -1 : shadowX;
+				shadowY = (shadowY > shadowLimit) ? shadowLimit : shadowY;
+				shadowY = (shadowY < shadowLimit * -1) ? shadowLimit * -1 : shadowY;
+
+				$shadow.css({textShadow: Math.ceil(shadowX) + 'px ' + Math.ceil(shadowY) + 'px ' + Math.abs(shadowX * shadowY) / 100 + 'px rgba(0,0,0,0.4)'});
+			});
+		})();
+	});
+</script>
+</body>
+</html>
